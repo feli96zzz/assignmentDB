@@ -87,21 +87,21 @@ BEGIN
 END;
 GO 
 
-/*
-create TRIGGER max_delivery ON cargo FOR INSERT 
+CREATE TRIGGER max_delivery ON cargo FOR INSERT 
 AS
 BEGIN 
-
-    IF (DATEDIFF(DAY,inserted.date_packed,inserted.date_receive)>30)
+	DECLARE @pack date, @rec date;
+	SELECT @pack=date_packed
+	FROM inserted
+	SELECT @pack=date_receive
+	FROM inserted
+    IF (DATEDIFF(DAY,@pack,@rec)>30)
     ROLLBACK TRAN;
 END;
 GO
-*/
-
-
-
 
 -----------------1.2.1-----------------------------
+
 create FUNCTION dbo.IsInt
 (
 @number VARCHAR(20)
