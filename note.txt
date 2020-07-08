@@ -1,0 +1,32 @@
+hiên: tạo bảng
+TABLE productModel 
+   status default ('hết hàng')
+
+TABLE product 
+  stock_out_date  default NULL
+
+TABLE Co_Don_hang_nha_ban_mau_sp
+	viết cái CHECK buy_amount > 0 (không cho nhập số âm và số 0)
+
+TABLE orders
+	thêm cột thuộc tính 'giaDonHang' INT default = 0
+
+
+Trí: làm trigger update khi thêm một sản phẩm vào bảng co_donhang_nhaban_mausp thì giá trị outofdate được update
+em kiểm set tình trạng trong bảng mẫu sản phẩm
+
+khi xóa, hoặc giảm số lượng trong bảng co_mẫu sản phẩm thì nó sẽ chọn đại sản phẩm trong bảng product để cập nhật giá trị NULL out_of_date
+mà không theo STT
+
+
+function tính giá hóa đơn: do trong đơn hàng khi mình thêm sản phẩm chỉ lưu số lượng không có lưu lại STT nên không biết sản phẩm nào thuộc hóa đơn nào, và cũng không tạo hóa đơn khi tạo đơn hàng
+(hàm của trí chỉ tính giá hóa đơn dựa vào bảng sản phẩm trong hóa đơn, nên phải tự thêm sản phẩm trong hóa đơn để kiểm tra)
+giá nhập bằng tay (do không làm đơn hàng có hóa đơn nào, nên không biết ngày bán)
+
+
+Hưng: +làm trigger cập nhật khi update số lượng trong bảng co_donhang_nhaban_mausp, sET stock_out_date = (select dbo.orders.date from dbo.orders where dbo.orders.id = @e)
+
+
+
+Thêm xóa sửa trực tiếp trên data grid view
+
