@@ -378,7 +378,7 @@ BEGIN
 					SET stock_out_date = NULL
 					WHERE STT = (SELECT MAX(STT)
 					FROM product
-					WHERE @b = id_product AND stock_out_date IS NOT NULL AND idStorage = (SELECT id
+					WHERE @b = id_product AND stock_out_date IS NOT NULL AND idStorage IN (SELECT id
 																						   FROM storage
 																						   WHERE @d = producerID));
 					SELECT @temp = @temp -1;
