@@ -142,18 +142,9 @@ CREATE TABLE Co_Don_hang_nha_ban_mau_sp(
       PRIMARY KEY (id_order,id_productModel,id_seller)
 );
 
-CREATE TABLE nganh_hang(
-      type Nvarchar(40),
-      PRIMARY KEY(type)
-);
-
-/*ALTER TABLE productModel 
-ADD CONSTRAINT fk_type FOREIGN KEY (type)
-            REFERENCES nganh_hang(type);
-
 ALTER TABLE seller
 ADD CONSTRAINT fk_type_prod FOREIGN KEY (type_prod)
-            REFERENCES nganh_hang(type);*/
+            REFERENCES typeProd(type);
 
 ALTER TABLE co_don_hang_nha_ban_mau_sp
 ADD CONSTRAINT fk_dep_id_order FOREIGN KEY (id_order)
