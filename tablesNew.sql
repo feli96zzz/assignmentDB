@@ -6,23 +6,23 @@ go
 /*PRODUCT TABLES*/
 
 CREATE TABLE typeProd(
-	type      varchar(40),
+	type      nvarchar(40),
 	PRIMARY KEY (type)
 );
 
 CREATE TABLE productModel (
    id           int  NOT NULL IDENTITY(1,1),
-   name         varchar(40),
-   description  varchar(1000),
-   status	    varchar(50) default 'Not available',
-   detailedInfo varchar(1000),
-   brand	      varchar(10),
-   type         varchar(40),
+   name         nvarchar(40),
+   description  nvarchar(1000),
+   status	    nvarchar(50) default 'Not available',
+   detailedInfo nvarchar(1000),
+   brand	      nvarchar(10),
+   type         nvarchar(40),
    FOREIGN KEY (type) REFERENCES typeProd(type),   
    PRIMARY KEY(id)   
 );
 CREATE TABLE colorProd(
-      color     varchar(40),
+      color     nvarchar(40),
       id_Prod   int ,
       FOREIGN KEY(id_Prod) REFERENCES productModel(id)
 );
@@ -31,22 +31,22 @@ CREATE TABLE colorProd(
 
 
 CREATE TABLE member(
-      email     VARCHAR (255),
-      phone_num varchar(255),
-      name      VARCHAR (255),
-      password  VARCHAR (511) NOT NULL,
+      email     nvarchar (255),
+      phone_num nvarchar(255),
+      name      nvarchar (255),
+      password  nvarchar (511) NOT NULL,
       PRIMARY KEY (email)
 );
 
 CREATE TABLE address(
-      email     varchar(255),
-      address   varchar(255),
+      email     nvarchar(255),
+      address   nvarchar(255),
       FOREIGN KEY (email) REFERENCES member(email)
 );
 
 CREATE TABLE customer(
-      id        varchar(255)  NOT  NULL ,
-      gender    varchar(6),
+      id        nvarchar(255)  NOT  NULL ,
+      gender    nvarchar(6),
       birthday  DATE ,
       PRIMARY KEY (id)
 );
@@ -57,9 +57,9 @@ ADD CONSTRAINT fk_id FOREIGN KEY (id)
                         ON DELETE CASCADE;
 
 CREATE TABLE review(
-      id_customer     VARCHAR (255)  ,
+      id_customer     nvarchar (255)  ,
       id_product      int  ,
-      comment         VARCHAR (200),
+      comment         nvarchar (200),
       date            DATE ,
       star            int, /* From 1 to 5*/
       PRIMARY KEY (id_customer,id_product)
@@ -76,10 +76,10 @@ ADD CONSTRAINT fk_id_product	FOREIGN KEY (id_product)
 /*Nhà bán*/
 CREATE TABLE seller(
       join_date       DATE ,
-      business_reg_num VARCHAR (30),
-      store_name      VARCHAR (40),
-      type_prod       varchar(40),
-      id_seller       varchar(255)  NOT NULL ,
+      business_reg_num nvarchar (30),
+      store_name      nvarchar (40),
+      type_prod       nvarchar(40),
+      id_seller       nvarchar(255)  NOT NULL ,
       PRIMARY KEY (id_seller)
 );
 ALTER TABLE seller
@@ -88,7 +88,7 @@ ADD CONSTRAINT fk_id_seller FOREIGN KEY (id_seller)
                               ON DELETE CASCADE;
 
 CREATE TABLE price(
-      id_seller       varchar(255)  NOT NULL ,
+      id_seller       nvarchar(255)  NOT NULL ,
       id_productModel int  NOT NULL ,
       price           int NOT NULL ,
       start_date      DATE ,
@@ -105,9 +105,9 @@ ADD CONSTRAINT fk_id_productModel	FOREIGN KEY (id_productModel)
 				REFERENCES productModel(id) 
 				ON DELETE CASCADE	;
 CREATE TABLE provider(
-      id_seller       varchar(255)   NOT  NULL ,
+      id_seller       nvarchar(255)   NOT  NULL ,
       id_productModel int  NOT NULL ,
-      infoGuarantee   varchar(255),
+      infoGuarantee   nvarchar(255),
       PRIMARY KEY (id_seller,id_productModel) ,
       FOREIGN KEY (id_seller)	REFERENCES seller(id_seller)  ,
       FOREIGN KEY (id_productModel) REFERENCES  productModel(id)
@@ -124,11 +124,11 @@ ADD CONSTRAINT fk_id_productModel	FOREIGN KEY (id_productModel)
 /*RECEIPT*/
 CREATE TABLE orders( /*đơn hàng*/
       id              INT  NOT NULL IDENTITY(1,1) ,
-      payment_method  varchar (255),
-      destination     varchar (255),
+      payment_method  nvarchar (255),
+      destination     nvarchar (255),
       date            DATE ,
-      status          VARCHAR(255) default 'No payment',
-      id_customer     varchar(255),
+      status          nvarchar(255) default 'No payment',
+      id_customer     nvarchar(255),
 	giaDonHang	Int default 0 CHECK(giaDonHang <= 200000000),
       PRIMARY KEY (id),
       FOREIGN KEY (id_customer) REFERENCES customer(id)
@@ -138,7 +138,7 @@ CREATE TABLE Co_Don_hang_nha_ban_mau_sp(
       buy_amount      int CHECK (buy_amount > 0),
       id_order        int ,
       id_productModel int ,
-      id_seller       varchar(255)  ,
+      id_seller       nvarchar(255)  ,
       PRIMARY KEY (id_order,id_productModel,id_seller)
 );
 
@@ -174,11 +174,11 @@ CREATE TABLE product_in_receipt( /*sản phẩm trong hóa đơn*/
 /* Thùng hàng*/
 CREATE TABLE cargo(
       id              int NOT NULL IDENTITY(1,1) ,
-      note            VARCHAR (255),
+      note            nvarchar (255),
       date_packed     DATE ,
       date_receive    DATE,
       delivery_staff  int  ,
-      status          VARCHAR (255) default 'Not delivered',
+      status          nvarchar (255) default 'Not delivered',
       PRIMARY KEY (id)
 );
 
@@ -191,12 +191,12 @@ ADD CONSTRAINT fk_id_cargo    FOREIGN KEY (id_cargo)
 /*Nhân viên*/
 CREATE TABLE staff(
       id              int  NOT NULL IDENTITY(1,1),
-      phone_num       varchar(10),
-      name            VARCHAR (40),
-      gender          varchar(6),
+      phone_num       nvarchar(10),
+      name            nvarchar (40),
+      gender          nvarchar(6),
       birthday        DATE CHECK (DATEDIFF(YEAR,birthday,GETDATE())>=18) ,
-      address         VARCHAR (255),
-      id_citizen      VARCHAR (30),
+      address         nvarchar (255),
+      id_citizen      nvarchar (30),
       PRIMARY KEY (id)
 );
 
@@ -213,7 +213,7 @@ ADD CONSTRAINT fk_id_staff_incharge FOREIGN KEY (id_staff_incharge)
 
 CREATE  TABLE delivery_staff(
       id              int  ,
-      vehicle         varchar(40),
+      vehicle         nvarchar(40),
       FOREIGN KEY (id) REFERENCES staff(id),
       PRIMARY KEY (id)
 );
@@ -235,9 +235,9 @@ CREATE TABLE staff_manager(
 
 CREATE TABLE storage( 
       id              int  NOT NULL IDENTITY(1,1),
-      name            varchar(40),
-      address         varchar(255), 
-      producerID varchar(255)   NOT NULL,
+      name            nvarchar(40),
+      address         nvarchar(255), 
+      producerID nvarchar(255)   NOT NULL,
       PRIMARY KEY (id) 
 );
 ALTER TABLE storage
@@ -267,8 +267,8 @@ ADD CONSTRAINT fk1_id_product_STT FOREIGN KEY (id_product, STT)
 --DROP TABLE IF EXISTS department
 CREATE TABLE  department(
       id              int  NOT NULL IDENTITY(1,1) ,
-      name            varchar (255),
-      description     varchar (255), /*mô tả hoạt động*/
+      name            nvarchar (255),
+      description     nvarchar (255), /*mô tả hoạt động*/
       PRIMARY KEY (id)
 );
 
@@ -292,7 +292,7 @@ ADD CONSTRAINT fk_id_staff	FOREIGN KEY (id_staff)
 
 CREATE TABLE department_place(
       id_department   int  ,
-      location        VARCHAR(255),
+      location        nvarchar(255),
       PRIMARY KEY (id_department,location),
       FOREIGN KEY (id_department) REFERENCES department(id)
 );

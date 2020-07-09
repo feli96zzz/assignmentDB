@@ -115,7 +115,7 @@ BEGIN
 END
 GO
 
-alter proc productmodel_Add(
+create proc productmodel_Add(
    @name         varchar(40),
    @description  varchar(1000),
    @detailedInfo varchar(1000),
