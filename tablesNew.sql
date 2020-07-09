@@ -147,13 +147,13 @@ CREATE TABLE nganh_hang(
       PRIMARY KEY(type)
 );
 
-ALTER TABLE productModel 
+/*ALTER TABLE productModel 
 ADD CONSTRAINT fk_type FOREIGN KEY (type)
             REFERENCES nganh_hang(type);
 
 ALTER TABLE seller
 ADD CONSTRAINT fk_type_prod FOREIGN KEY (type_prod)
-            REFERENCES nganh_hang(type);
+            REFERENCES nganh_hang(type);*/
 
 ALTER TABLE co_don_hang_nha_ban_mau_sp
 ADD CONSTRAINT fk_dep_id_order FOREIGN KEY (id_order)
