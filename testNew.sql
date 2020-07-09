@@ -19,27 +19,66 @@ delProcMod '4'
 select * from dbo.orders
 select * from dbo.Co_Don_hang_nha_ban_mau_sp
 select * from dbo.productModel
-select * from product
 select * from price
+select * from product
 select * from storage
 select * from seller
 select * from member
+select * from customer
 --
+---- insert laptop
 insert into member values ('dientuhung@gmail.com', '0988221112', N'Điện tử Hùng', '123456')
 insert into seller values ('20100101', '1234', N'Điện tử Hùng', 'laptop', 'dientuhung@gmail.com')
-insert into dbo.product (id_product, idStorage, stock_in_date) values (1, 5, '20200505')
+insert into storage (name, address, producerID) values (N'PTH 1', N'phạm thế hiển', 'dientuhung@gmail.com')
+--insert into storage (name, address, producerID) values (N'HV 1', N'hùng vương', 'dientuhung@gmail.com')
+insert into dbo.product (id_product, idStorage, stock_in_date) values (1, 1, '20180101')
+insert into dbo.product (id_product, idStorage, stock_in_date) values (1, 1, '20180101')
+insert into dbo.product (id_product, idStorage, stock_in_date) values (1, 1, '20180101')
+insert into dbo.product (id_product, idStorage, stock_in_date) values (1, 1, '20180101')
+insert into dbo.product (id_product, idStorage, stock_in_date) values (1, 1, '20180101')
+insert into dbo.price values ('dientuhung@gmail.com', 1, 15000000, '20180101', '20181231')
+insert into dbo.price values ('dientuhung@gmail.com', 1, 20000000, '20190101', '20191231')
 
---
+--- insert smartphone
+insert into member values ('dienthoaihieu@gmail.com', '09882211234', N'Điện thoại Hiếu', '12236')
+insert into seller values ('20100101', '1234', N'Điện thoại Hiếu', 'smartphone', 'dienthoaihieu@gmail.com')
+insert into storage (name, address, producerID) values (N'THĐ 1', N'Trần Hưng Đạo', 'dienthoaihieu@gmail.com')
+--insert into storage (name, address, producerID) values (N'HB 1', N'Hồng Bàng', 'dienthoaihieu@gmail.com')
+insert into dbo.product (id_product, idStorage, stock_in_date) values (4, 2, '20180101')
+insert into dbo.product (id_product, idStorage, stock_in_date) values (4, 2, '20180101')
+insert into dbo.product (id_product, idStorage, stock_in_date) values (4, 2, '20180101')
+insert into dbo.product (id_product, idStorage, stock_in_date) values (4, 2, '20180101')
+insert into dbo.product (id_product, idStorage, stock_in_date) values (4, 2, '20180101')
+insert into dbo.price values ('dienthoaihieu@gmail.com', 4, 7000000, '20180101', '20181231')
+insert into dbo.price values ('dienthoaihieu@gmail.com', 4, 10000000, '20190101', '20191231')
 
-insert into dbo.Co_Don_hang_nha_ban_mau_sp values (6, 2, 3, 'baba@gmail.com')
-update dbo.Co_Don_hang_nha_ban_mau_sp set buy_amount = 5 where id_order = 2 and id_productModel = 3
-update dbo.product set stock_out_date = NULL where id_product = 11 and STT = 2
-insert into dbo.Co_Don_hang_nha_ban_mau_sp values (1, 2, 11, 'batu@gmail.com')
-delete from dbo.Co_Don_hang_nha_ban_mau_sp where id_order = 2 and id_productModel = 3
-delete from dbo.Co_Don_hang_nha_ban_mau_sp where id_order = 2 and id_productModel = 11
-insert into dbo.Co_Don_hang_nha_ban_mau_sp values (1, 2, 11, 'batu@gmail.com')
-update dbo.orders set date = '20200707' where id = 2
+delete from price where price = 7000000 and start_date = '20190101'
 
 
+-- thêm đơn hàng
+insert into member values ('nguyenanhtu@gmail.com', '098822112', N'Nguyễn Anh Tú', '122326')
+insert into customer values ('nguyenanhtu@gmail.com','nam', '19961024')
+insert into orders (payment_method, destination, date, id_customer) values (N'thanh toán tiền mặt', N'nhà riêng', '20190630', 'nguyenanhtu@gmail.com')
+select * from dbo.Co_Don_hang_nha_ban_mau_sp
+insert into dbo.Co_Don_hang_nha_ban_mau_sp values (1, 1, 1, 'dientuhung@gmail.com')
+insert into dbo.Co_Don_hang_nha_ban_mau_sp values (4, 1, 4, 'dienthoaihieu@gmail.com')
+update dbo.Co_Don_hang_nha_ban_mau_sp set buy_amount = 3 where id_order = 1 and id_productModel = 1
+update dbo.Co_Don_hang_nha_ban_mau_sp set buy_amount = 2 where id_order = 1 and id_productModel = 4
 
+delete from dbo.Co_Don_hang_nha_ban_mau_sp where id_order = 1 and id_productModel = 4
 ---------^------ Tu test tính giá đơn hàng
+
+
+
+----------------v Tu test tính doanh thu của một cửa hàng trong một khoảng thời gian
+insert into member values ('dinhphuchung@gmail.com', '09223422112', N'Đinh Phúc Hưng', '1222123')
+insert into customer values ('dinhphuchung@gmail.com','nam', '20000612')
+insert into orders (payment_method, destination, date, id_customer) values (N'thanh toán tiền mặt', N'nhà riêng', '20180404', 'dinhphuchung@gmail.com')
+select * from dbo.Co_Don_hang_nha_ban_mau_sp
+insert into dbo.Co_Don_hang_nha_ban_mau_sp values (2, 2, 1, 'dientuhung@gmail.com')
+insert into dbo.Co_Don_hang_nha_ban_mau_sp values (3, 2, 4, 'dienthoaihieu@gmail.com')
+select dbo.doanhThu('dienthoaihieu@gmail.com', '20180101', '20181231')
+select dbo.doanhThu('dienthoaihieu@gmail.com', '20190101', '20191231')
+select dbo.doanhThu('dientuhung@gmail.com', '20180101', '20181231')
+select dbo.doanhThu('dientuhung@gmail.com', '20190101', '20191231')
+----------------^ Tu test tính doanh thu của một cửa hàng trong một khoảng thời gian
