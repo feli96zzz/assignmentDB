@@ -378,7 +378,7 @@ BEGIN
 					SET stock_out_date = NULL
 					WHERE STT = (SELECT MAX(STT)
 					FROM product
-					WHERE @b = id_product AND stock_out_date IS NOT NULL AND idStorage = (SELECT id
+					WHERE @b = id_product AND stock_out_date IS NOT NULL AND idStorage IN (SELECT id
 																						   FROM storage
 																						   WHERE @d = producerID));
 					SELECT @temp = @temp -1;
@@ -468,17 +468,20 @@ GO
 
 create TRIGGER update_CO on Co_Don_hang_nha_ban_mau_sp after update AS
 BEGIN
-	UPDATE orders
-	SET giaDonHang = giaDonHang + 
-	(SELECT buy_amount FROM inserted WHERE id_order = orders.id) * 
-	dbo.giaSanPham(inserted.id_seller, inserted.id_productModel, orders.date)
-	FROM orders JOIN inserted ON orders.id = inserted.id_order
 
 	UPDATE orders
 	SET giaDonHang = giaDonHang - (SELECT buy_amount FROM deleted WHERE id_order = orders.id) *
 	dbo.giaSanPham(deleted.id_seller, deleted.id_productModel, orders.date)
 	FROM orders
 	JOIN deleted ON orders.id = deleted.id_order
+
+	UPDATE orders
+	SET giaDonHang = giaDonHang + 
+	(SELECT buy_amount FROM inserted WHERE id_order = orders.id) * 
+	dbo.giaSanPham(inserted.id_seller, inserted.id_productModel, orders.date)
+	FROM orders JOIN inserted ON orders.id = inserted.id_order
+
+	
 END
 GO
 
@@ -595,3 +598,26 @@ GO
 
 
 
+--------v view của Hưng
+CREATE PROC prod_sold_by_seller
+@mode int
+AS
+BEGIN
+	if (@mode = 1)
+		BEGIN
+			SELECT storage.producerID, COUNT(*)
+			FROM storage, product 
+			WHERE product.idStorage = storage.id AND product.stock_out_date IS NOT NULL
+			GROUP BY producerID
+			ORDER BY COUNT(*) DESC;
+		END;
+	else
+		BEGIN
+			SELECT storage.producerID, COUNT(*)
+			FROM storage, product 
+			WHERE product.idStorage = storage.id AND product.stock_out_date IS NOT NULL
+			GROUP BY producerID
+			ORDER BY COUNT(*) ASC;
+		END;
+END;
+--------^ view của Hưng

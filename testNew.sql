@@ -30,12 +30,12 @@ select * from customer
 insert into member values ('dientuhung@gmail.com', '0988221112', N'Điện tử Hùng', '123456')
 insert into seller values ('20100101', '1234', N'Điện tử Hùng', 'laptop', 'dientuhung@gmail.com')
 insert into storage (name, address, producerID) values (N'PTH 1', N'phạm thế hiển', 'dientuhung@gmail.com')
---insert into storage (name, address, producerID) values (N'HV 1', N'hùng vương', 'dientuhung@gmail.com')
+insert into storage (name, address, producerID) values (N'HV 1', N'hùng vương', 'dientuhung@gmail.com')
 insert into dbo.product (id_product, idStorage, stock_in_date) values (1, 1, '20180101')
 insert into dbo.product (id_product, idStorage, stock_in_date) values (1, 1, '20180101')
-insert into dbo.product (id_product, idStorage, stock_in_date) values (1, 1, '20180101')
-insert into dbo.product (id_product, idStorage, stock_in_date) values (1, 1, '20180101')
-insert into dbo.product (id_product, idStorage, stock_in_date) values (1, 1, '20180101')
+insert into dbo.product (id_product, idStorage, stock_in_date) values (1, 2, '20180101')
+insert into dbo.product (id_product, idStorage, stock_in_date) values (1, 2, '20180101')
+insert into dbo.product (id_product, idStorage, stock_in_date) values (1, 2, '20180101')
 insert into dbo.price values ('dientuhung@gmail.com', 1, 15000000, '20180101', '20181231')
 insert into dbo.price values ('dientuhung@gmail.com', 1, 20000000, '20190101', '20191231')
 
@@ -43,12 +43,12 @@ insert into dbo.price values ('dientuhung@gmail.com', 1, 20000000, '20190101', '
 insert into member values ('dienthoaihieu@gmail.com', '09882211234', N'Điện thoại Hiếu', '12236')
 insert into seller values ('20100101', '1234', N'Điện thoại Hiếu', 'smartphone', 'dienthoaihieu@gmail.com')
 insert into storage (name, address, producerID) values (N'THĐ 1', N'Trần Hưng Đạo', 'dienthoaihieu@gmail.com')
---insert into storage (name, address, producerID) values (N'HB 1', N'Hồng Bàng', 'dienthoaihieu@gmail.com')
-insert into dbo.product (id_product, idStorage, stock_in_date) values (4, 2, '20180101')
-insert into dbo.product (id_product, idStorage, stock_in_date) values (4, 2, '20180101')
-insert into dbo.product (id_product, idStorage, stock_in_date) values (4, 2, '20180101')
-insert into dbo.product (id_product, idStorage, stock_in_date) values (4, 2, '20180101')
-insert into dbo.product (id_product, idStorage, stock_in_date) values (4, 2, '20180101')
+insert into storage (name, address, producerID) values (N'HB 1', N'Hồng Bàng', 'dienthoaihieu@gmail.com')
+insert into dbo.product (id_product, idStorage, stock_in_date) values (4, 3, '20180101')
+insert into dbo.product (id_product, idStorage, stock_in_date) values (4, 3, '20180101')
+insert into dbo.product (id_product, idStorage, stock_in_date) values (4, 3, '20180101')
+insert into dbo.product (id_product, idStorage, stock_in_date) values (4, 4, '20180101')
+insert into dbo.product (id_product, idStorage, stock_in_date) values (4, 4, '20180101')
 insert into dbo.price values ('dienthoaihieu@gmail.com', 4, 7000000, '20180101', '20181231')
 insert into dbo.price values ('dienthoaihieu@gmail.com', 4, 10000000, '20190101', '20191231')
 
@@ -81,4 +81,8 @@ select dbo.doanhThu('dienthoaihieu@gmail.com', '20180101', '20181231')
 select dbo.doanhThu('dienthoaihieu@gmail.com', '20190101', '20191231')
 select dbo.doanhThu('dientuhung@gmail.com', '20180101', '20181231')
 select dbo.doanhThu('dientuhung@gmail.com', '20190101', '20191231')
+select * from seller
+select * from storage
+select * from product
+select * from price
 ----------------^ Tu test tính doanh thu của một cửa hàng trong một khoảng thời gian
