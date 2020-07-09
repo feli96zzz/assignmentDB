@@ -16,31 +16,13 @@ Begin
 		Where productModel.id=@id
 	End
 End
-drop function insertSLSP 
-create proc SLSP(
-	@id_product      int ,
-    @idStorage       int ,
-    @stock_in_date   DATE
-)
-AS
-Begin
-	insert into product(id_product,idStorage,stock_in_date) values (@id_product, @idStorage, @stock_in_date) 
-End
 
-create function insertSLSP(
-	@SL int,
-	@id_product      int ,
-    @idStorage       int ,
-    @stock_in_date   DATE
-)
-Returns int as
-Begin
-	Declare @count int=0
-	while(@count<@SL)
-	Begin
-		SLSP @id_product, @idStorage, @stock_in_date
-		set @count +=1
-	end
-	Return 0
-End
-GO
+
+------------------Bang so luong hang da ban theo id---------------------------------------------------------------
+Create function SoLuongSP(@fromDate Date,@toDate Date)
+Returns table as
+Return
+	Select  product.id_product, count(*)as SL, product.stock_out_date
+	From	product
+	Where	@fromDate<=product.stock_out_date and product.stock_out_date <= @toDate and stock_out_date is not NULL 
+	Group by product.id_product, stock_out_date
