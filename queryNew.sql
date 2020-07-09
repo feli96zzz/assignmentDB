@@ -87,7 +87,7 @@ BEGIN
 END;
 GO 
 
-CREATE TRIGGER max_delivery ON cargo FOR INSERT 
+create TRIGGER max_delivery ON cargo FOR INSERT 
 AS
 BEGIN 
 	DECLARE @pack date, @rec date;
@@ -487,7 +487,7 @@ GO
 
 
 ------------------------------------^^^^^^ trigger tính thuộc tính dẫn xuất giá đơn hàng trong đơn hàng
-Create trigger checkStatusProductModel
+create trigger checkStatusProductModel
 on Co_Don_hang_nha_ban_mau_sp
 After Insert
 as
@@ -503,7 +503,7 @@ Begin
 		Where productModel.id=@id
 	End
 End
-
+GO
 ---------vvvvvvvvvvvvvv function tính doanh thu trong một khoảng thời gian
 
 create function giaSanPham(@maNhaBan varchar(255), @maMauSanPham INT, @stock_out_date date)
@@ -570,13 +570,14 @@ GO
 ---------^^^^^^^^^^^^^^ function tính doanh thu trong một khoảng thời gian
 
 ------------------Bang so luong hang da ban theo id---------------------------------------------------------------
-Create function SoLuongSP(@fromDate Date,@toDate Date)
+create function SoLuongSP(@fromDate Date,@toDate Date)
 Returns table as
 Return
 	Select  product.id_product, count(*)as SL, product.stock_out_date
 	From	product
 	Where	@fromDate<=product.stock_out_date and product.stock_out_date <= @toDate and stock_out_date is not NULL 
 	Group by product.id_product, stock_out_date
+GO
 -----------------------vvvvvvvvvvvvvvvvvvv function tính giá hóa đơn
 create FUNCTION calPrice (@id_receipt int)
 Returns int as 
@@ -622,7 +623,7 @@ GO
 
 
 --------v view của Hưng
-CREATE PROC prod_sold_by_seller
+create PROC prod_sold_by_seller
 @mode int
 AS
 BEGIN
@@ -643,4 +644,5 @@ BEGIN
 			ORDER BY COUNT(*) ASC;
 		END;
 END;
+GO
 --------^ view của Hưng
