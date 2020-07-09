@@ -116,7 +116,7 @@ BEGIN
 END;
 GO 
 
-CREATE TRIGGER max_delivery ON cargo FOR INSERT 
+create TRIGGER max_delivery ON cargo FOR INSERT 
 AS
 BEGIN 
 	DECLARE @pack date, @rec date;
@@ -144,7 +144,7 @@ BEGIN
 END
 GO
 
-alter proc productmodel_Add(
+create proc productmodel_Add(
    @name         varchar(40),
    @description  varchar(1000),
    @detailedInfo varchar(1000),
@@ -407,7 +407,7 @@ BEGIN
 					SET stock_out_date = NULL
 					WHERE STT = (SELECT MAX(STT)
 					FROM product
-					WHERE @b = id_product AND stock_out_date IS NOT NULL AND idStorage = (SELECT id
+					WHERE @b = id_product AND stock_out_date IS NOT NULL AND idStorage IN (SELECT id
 																						   FROM storage
 																						   WHERE @d = producerID));
 					SELECT @temp = @temp -1;
@@ -497,23 +497,42 @@ GO
 
 create TRIGGER update_CO on Co_Don_hang_nha_ban_mau_sp after update AS
 BEGIN
-	UPDATE orders
-	SET giaDonHang = giaDonHang + 
-	(SELECT buy_amount FROM inserted WHERE id_order = orders.id) * 
-	dbo.giaSanPham(inserted.id_seller, inserted.id_productModel, orders.date)
-	FROM orders JOIN inserted ON orders.id = inserted.id_order
 
 	UPDATE orders
 	SET giaDonHang = giaDonHang - (SELECT buy_amount FROM deleted WHERE id_order = orders.id) *
 	dbo.giaSanPham(deleted.id_seller, deleted.id_productModel, orders.date)
 	FROM orders
 	JOIN deleted ON orders.id = deleted.id_order
+
+	UPDATE orders
+	SET giaDonHang = giaDonHang + 
+	(SELECT buy_amount FROM inserted WHERE id_order = orders.id) * 
+	dbo.giaSanPham(inserted.id_seller, inserted.id_productModel, orders.date)
+	FROM orders JOIN inserted ON orders.id = inserted.id_order
+
+	
 END
 GO
 
 
 ------------------------------------^^^^^^ trigger tính thuộc tính dẫn xuất giá đơn hàng trong đơn hàng
-
+create trigger checkStatusProductModel
+on Co_Don_hang_nha_ban_mau_sp
+After Insert
+as
+Begin
+	Declare @Conhang int
+	Declare @id int
+	Select @id= id_productModel from inserted
+	Select @Conhang = count(*) from product where product.id_product=@id and product.stock_out_date is NULL
+	if(@Conhang=0) 
+	Begin
+		Update dbo.productModel
+		Set productModel.status='Not available'
+		Where productModel.id=@id
+	End
+End
+GO
 ---------vvvvvvvvvvvvvv function tính doanh thu trong một khoảng thời gian
 
 create function giaSanPham(@maNhaBan varchar(255), @maMauSanPham INT, @stock_out_date date)
@@ -579,7 +598,15 @@ GO
 
 ---------^^^^^^^^^^^^^^ function tính doanh thu trong một khoảng thời gian
 
-
+------------------Bang so luong hang da ban theo id---------------------------------------------------------------
+create function SoLuongSP(@fromDate Date,@toDate Date)
+Returns table as
+Return
+	Select  product.id_product, count(*)as SL, product.stock_out_date
+	From	product
+	Where	@fromDate<=product.stock_out_date and product.stock_out_date <= @toDate and stock_out_date is not NULL 
+	Group by product.id_product, stock_out_date
+GO
 -----------------------vvvvvvvvvvvvvvvvvvv function tính giá hóa đơn
 create FUNCTION calPrice (@id_receipt int)
 Returns int as 
@@ -624,3 +651,27 @@ GO
 
 
 
+--------v view của Hưng
+create PROC prod_sold_by_seller
+@mode int
+AS
+BEGIN
+	if (@mode = 1)
+		BEGIN
+			SELECT storage.producerID, COUNT(*)
+			FROM storage, product 
+			WHERE product.idStorage = storage.id AND product.stock_out_date IS NOT NULL
+			GROUP BY producerID
+			ORDER BY COUNT(*) DESC;
+		END;
+	else
+		BEGIN
+			SELECT storage.producerID, COUNT(*)
+			FROM storage, product 
+			WHERE product.idStorage = storage.id AND product.stock_out_date IS NOT NULL
+			GROUP BY producerID
+			ORDER BY COUNT(*) ASC;
+		END;
+END;
+GO
+--------^ view của Hưng
