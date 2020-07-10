@@ -644,4 +644,18 @@ BEGIN
 		END;
 END;
 GO
+
+--product models that has sold for x months 
+DROP PROC IF EXISTS incompetent_products
+GO
+CREATE PROC incompetent_products
+@months int
+AS
+BEGIN
+	SELECT DISTINCT id, name, description, status, detailedInfo, brand, type
+	FROM productModel, product
+	WHERE
+	productModel.id = product.id_product AND product.stock_out_date IS NOT NULL AND DATEDIFF(month, product.stock_out_date , GETDATE()) <= @months
+
+END;
 --------^ view của Hưng
