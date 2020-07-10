@@ -1,7 +1,7 @@
 ------------------1.2.3----------------
 DROP PROCEDURE IF EXISTS list_products_ofSeller ;
 GO
-alter PROCEDURE list_products_ofSeller(@seller varchar(255),@idModel int,@name varchar(40)) 
+create PROCEDURE list_products_ofSeller(@seller varchar(255),@idModel int,@name varchar(40)) 
 AS
 SELECT id_seller,id_productModel,name,status
 FROM price INNER JOIN productModel ON price.id_productModel= productModel.id	
