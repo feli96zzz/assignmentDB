@@ -1,10 +1,7 @@
 ---------------------------------tongHop
-
-
-
 USE TIKI;
-go
 
+GO
 create TRIGGER max_storages ON storage FOR INSERT
 AS
 BEGIN
@@ -21,7 +18,9 @@ BEGIN
 			rollback tran;
 		END;		
 END;
+
 GO
+
 
 create TRIGGER max_department ON current_working_department FOR INSERT 
 AS
