@@ -1,35 +1,5 @@
 ---------------------------------tongHop
 USE TIKI;
-go
-CREATE TRIGGER fill_nganhhang_product_model ON productModel FOR INSERT
-AS
-BEGIN
-	DECLARE @type Nvarchar(40),@check Nvarchar(40);
-	SELECT @type=type
-	FROM INSERTED
-
-	SELECT @check=type
-	FROM nganh_hang
-	WHERE type=@type
-	if @check is NULL
-		INSERT INTO nganh_hang VALUES (@type);
-END;
-
-GO
-CREATE TRIGGER fill_nganh_hang ON seller FOR INSERT
-AS
-BEGIN
-	DECLARE @type Nvarchar(40),@check Nvarchar(40);
-	SELECT @type=type_prod
-	FROM INSERTED
-
-	SELECT @check=type
-	FROM nganh_hang
-	WHERE @type=type
-	if @check is NULL
-		INSERT INTO nganh_hang VALUES (@type);
-END;
-
 
 GO
 create TRIGGER max_storages ON storage FOR INSERT
