@@ -22,3 +22,44 @@ SELECT id_customer,id_product,star
 FROM review
 WHERE @id_product=id_product
 GROUP BY id_customer,id_product,star
+
+
+
+--seller ranking by sold product, both ascending and descending
+DROP PROC IF EXISTS prod_sold_by_seller
+go
+CREATE PROC prod_sold_by_seller
+@mode int
+AS
+BEGIN
+	if (@mode = 1)
+		BEGIN
+			SELECT storage.producerID, COUNT(*) AS 'GIẢM DẦN'
+			FROM storage, product 
+			WHERE product.idStorage = storage.id AND product.stock_out_date IS NOT NULL
+			GROUP BY producerID
+			ORDER BY COUNT(*) DESC;
+		END;
+	else
+		BEGIN
+			SELECT storage.producerID, COUNT(*) AS 'TĂNG DẦN'
+			FROM storage, product 
+			WHERE product.idStorage = storage.id AND product.stock_out_date IS NOT NULL
+			GROUP BY producerID
+			ORDER BY COUNT(*) ASC;
+		END;
+END;
+
+--product models that has sold for x months 
+DROP PROC IF EXISTS incompetent_products
+GO
+CREATE PROC incompetent_products
+@months int
+AS
+BEGIN
+	SELECT DISTINCT id, name, description, status, detailedInfo, brand, type
+	FROM productModel, product
+	WHERE
+	productModel.id = product.id_product AND product.stock_out_date IS NOT NULL AND DATEDIFF(month, product.stock_out_date , GETDATE()) <= @months
+
+END;
