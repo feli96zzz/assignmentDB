@@ -45,13 +45,6 @@ END;
 --product models that has sold for x months 
 DROP PROC IF EXISTS incompetent_products
 GO
-CREATE PROC incompetent_products
-@months int
-AS
-SELECT id_customer,id_product,star
-FROM review
-WHERE @id_product=id_product
-GROUP BY id_customer,id_product,star
 
 
 
