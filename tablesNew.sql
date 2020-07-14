@@ -206,7 +206,7 @@ ADD CONSTRAINT fk_id_cargo    FOREIGN KEY (id_cargo)
 /*Nhân viên*/
 CREATE TABLE staff(
       id              int  NOT NULL IDENTITY(1,1),
-      phone_num       nvarchar(10),
+      phone_num       nvarchar(10) UNIQUE ,
       name            nvarchar (40),
       gender          nvarchar(6),
       birthday        DATE CHECK (DATEDIFF(YEAR,birthday,GETDATE())>=18) ,
@@ -250,7 +250,7 @@ CREATE TABLE staff_manager(
 
 CREATE TABLE storage( 
       id              int  NOT NULL IDENTITY(1,1),
-      name            nvarchar(40) UNIQUE ,
+      name            nvarchar(40) ,
       address         nvarchar(255) UNIQUE , 
       producerID nvarchar(255)   NOT NULL,
       PRIMARY KEY (id) 
@@ -282,7 +282,7 @@ ADD CONSTRAINT fk1_id_product_STT FOREIGN KEY (id_product, STT)
 --DROP TABLE IF EXISTS department
 CREATE TABLE  department(
       id              int  NOT NULL IDENTITY(1,1) ,
-      name            nvarchar (255),
+      name            nvarchar (255) UNIQUE ,
       description     nvarchar (255), /*mô tả hoạt động*/
       PRIMARY KEY (id)
 );
