@@ -481,7 +481,24 @@ BEGIN
 	dbo.giaSanPham(inserted.id_seller, inserted.id_productModel, orders.date)
 	FROM orders JOIN inserted ON orders.id = inserted.id_order
 
-	
+	Declare @Conhang int
+	Declare @id int
+	Select @id= id_productModel from inserted
+	Select @Conhang = count(*) from product where product.id_product=@id and product.stock_out_date is NULL
+	Print @id
+	Print @Conhang
+	if(@Conhang=0) 
+	Begin
+		Update dbo.productModel
+		Set productModel.status='Not available'
+		Where productModel.id=@id
+	End
+	Else
+	Begin
+		Update dbo.productModel
+		Set productModel.status='Available'
+		Where productModel.id=@id
+	END
 END
 GO
 
@@ -646,3 +663,43 @@ BEGIN
 END;
 GO
 --------^ view của Hưng
+
+
+DROP PROC IF EXISTS incompetent_products
+GO
+CREATE PROC incompetent_products
+@months int, @date date
+AS
+BEGIN
+	SELECT DISTINCT id, name, description, status, detailedInfo, brand, type
+	FROM productModel, product
+	WHERE
+	productModel.id = product.id_product AND product.stock_out_date IS NOT NULL AND DATEDIFF(month, product.stock_out_date , @date) <= @months
+	order by name asc
+END;
+go
+
+CREATE PROCEDURE list_products_ofSeller(@seller varchar(255),@idModel int,@name varchar(40)) 
+AS
+SELECT id_seller,id_productModel,name,status
+FROM provider INNER JOIN productModel ON provider.id_productModel= productModel.id
+WHERE ( @seller=id_seller  OR @idModel=id_productModel OR @name=name)
+GROUP BY status,provider.id_seller,provider.id_productModel,productModel.name
+ORDER BY id_seller ;
+go
+
+create function SoLuongSP2(@sl int, @fromDate Date,@toDate Date)
+Returns table as
+Return
+	Select  product.id_product, count(*)as SL, product.stock_out_date
+	From	product
+	Where	@fromDate<=product.stock_out_date and product.stock_out_date <= @toDate and stock_out_date is not NULL 
+	Group by product.id_product, stock_out_date
+	having COUNT(*) > @sl
+GO
+
+create proc SLmauSanPhamLonHonN (@sl int, @fromDate Date,@toDate Date)
+AS
+	Begin
+		select * from dbo.productModel where id IN (select id_product from SoLuongSP2 (@sl, @fromDate, @toDate))
+	End
