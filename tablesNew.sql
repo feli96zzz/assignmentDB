@@ -16,7 +16,7 @@ CREATE TABLE productModel (
    description  nvarchar(1000),
    status	    nvarchar(50) default 'Not available',
    detailedInfo nvarchar(1000),
-   brand	      nvarchar(10) UNIQUE ,
+   brand	      nvarchar(10) ,
    type         nvarchar(40),
    FOREIGN KEY (type    ) REFERENCES typeProd(type),   
    PRIMARY KEY(id)   
@@ -33,7 +33,7 @@ CREATE TABLE colorProd(
 CREATE TABLE member(
       email     nvarchar (255),
       phone_num nvarchar(255) UNIQUE ,
-      name      nvarchar (255) UNIQUE ,
+      name      nvarchar (255)  ,
       password  nvarchar (511) NOT NULL,
       PRIMARY KEY (email)
 );
@@ -76,7 +76,7 @@ ADD CONSTRAINT fk_id_product	FOREIGN KEY (id_product)
 /*Nhà bán*/
 CREATE TABLE seller(
       join_date       DATE ,
-      business_reg_num nvarchar (30),
+      business_reg_num nvarchar (30) UNIQUE ,
       store_name      nvarchar (40),
       type_prod       nvarchar(40),
       id_seller       nvarchar(255)  NOT NULL ,
@@ -250,7 +250,7 @@ CREATE TABLE staff_manager(
 
 CREATE TABLE storage( 
       id              int  NOT NULL IDENTITY(1,1),
-      name            nvarchar(40),
+      name            nvarchar(40) UNIQUE ,
       address         nvarchar(255) UNIQUE , 
       producerID nvarchar(255)   NOT NULL,
       PRIMARY KEY (id) 
