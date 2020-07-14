@@ -645,7 +645,3 @@ BEGIN
 END;
 GO
 --------^ view của Hưng
-
-prod_sold_by_seller 1
-SELECT * from product
-select* from productModel

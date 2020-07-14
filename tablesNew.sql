@@ -16,9 +16,9 @@ CREATE TABLE productModel (
    description  nvarchar(1000),
    status	    nvarchar(50) default 'Not available',
    detailedInfo nvarchar(1000),
-   brand	      nvarchar(10),
+   brand	      nvarchar(10) UNIQUE ,
    type         nvarchar(40),
-   FOREIGN KEY (type) REFERENCES typeProd(type),   
+   FOREIGN KEY (type    ) REFERENCES typeProd(type),   
    PRIMARY KEY(id)   
 );
 CREATE TABLE colorProd(
@@ -32,8 +32,8 @@ CREATE TABLE colorProd(
 
 CREATE TABLE member(
       email     nvarchar (255),
-      phone_num nvarchar(255),
-      name      nvarchar (255),
+      phone_num nvarchar(255) UNIQUE ,
+      name      nvarchar (255) UNIQUE ,
       password  nvarchar (511) NOT NULL,
       PRIMARY KEY (email)
 );
@@ -251,7 +251,7 @@ CREATE TABLE staff_manager(
 CREATE TABLE storage( 
       id              int  NOT NULL IDENTITY(1,1),
       name            nvarchar(40),
-      address         nvarchar(255), 
+      address         nvarchar(255) UNIQUE , 
       producerID nvarchar(255)   NOT NULL,
       PRIMARY KEY (id) 
 );
