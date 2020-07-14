@@ -1,10 +1,7 @@
 ---------------------------------tongHop
-
-
-
 USE TIKI;
-go
 
+GO
 create TRIGGER max_storages ON storage FOR INSERT
 AS
 BEGIN
@@ -21,7 +18,9 @@ BEGIN
 			rollback tran;
 		END;		
 END;
+
 GO
+
 
 create TRIGGER max_department ON current_working_department FOR INSERT 
 AS
@@ -662,12 +661,14 @@ BEGIN
 		END;
 END;
 GO
+
 --------^ view của Hưng
 
 
-DROP PROC IF EXISTS incompetent_products
-GO
-CREATE PROC incompetent_products
+
+--product models that has sold for x months 
+create PROC incompetent_products
+
 @months int, @date date
 AS
 BEGIN
@@ -703,3 +704,7 @@ AS
 	Begin
 		select * from dbo.productModel where id IN (select id_product from SoLuongSP2 (@sl, @fromDate, @toDate))
 	End
+=======
+END;
+--------^ view của Hưng
+
