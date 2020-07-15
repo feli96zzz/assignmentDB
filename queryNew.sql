@@ -480,6 +480,13 @@ BEGIN
 	dbo.giaSanPham(inserted.id_seller, inserted.id_productModel, orders.date)
 	FROM orders JOIN inserted ON orders.id = inserted.id_order
 
+	
+END
+GO
+
+Create TRIGGER update_Co_Don_hang_nha_ban_mau_sp on Co_Don_hang_nha_ban_mau_sp 
+After update AS
+BEGIN
 	Declare @Conhang int
 	Declare @id int
 	Select @id= id_productModel from inserted
@@ -500,8 +507,6 @@ BEGIN
 	END
 END
 GO
-
-
 ------------------------------------^^^^^^ trigger tính thuộc tính dẫn xuất giá đơn hàng trong đơn hàng
 create trigger checkStatusProductModel
 on Co_Don_hang_nha_ban_mau_sp
