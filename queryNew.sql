@@ -670,17 +670,16 @@ GO
 --------^ view của Hưng
 
 
-
+go
 --product models that has sold for x months 
-create PROC incompetent_products
-
+create PROC dbo.incompetent_products
 @months int, @date date
 AS
 BEGIN
 	SELECT DISTINCT id, name, description, status, detailedInfo, brand, type
 	FROM productModel, product
 	WHERE
-	productModel.id = product.id_product AND product.stock_out_date IS NOT NULL AND DATEDIFF(month, product.stock_out_date , @date) <= @months
+	productModel.id = product.id_product AND product.stock_out_date IS NOT NULL AND DATEDIFF(month, product.stock_out_date , @date) <= @months AND DATEDIFF(month, product.stock_out_date , @date) >= 0
 	order by name asc
 END;
 go
@@ -694,22 +693,24 @@ GROUP BY status,provider.id_seller,provider.id_productModel,productModel.name
 ORDER BY id_seller ;
 go
 
-create function SoLuongSP2(@sl int, @fromDate Date,@toDate Date)
-Returns table as
-Return
-	Select  product.id_product, count(*)as SL, product.stock_out_date
-	From	product
-	Where	@fromDate<=product.stock_out_date and product.stock_out_date <= @toDate and stock_out_date is not NULL 
-	Group by product.id_product, stock_out_date
-	having COUNT(*) > @sl
-GO
 
-create proc SLmauSanPhamLonHonN (@sl int, @fromDate Date,@toDate Date)
-AS
-	Begin
-		select * from dbo.productModel where id IN (select id_product from SoLuongSP2 (@sl, @fromDate, @toDate))
-	End
-=======
-END;
 --------^ view của Hưng
+go
+create PROC list_productModel
+@months int, @date date, @sl int
+AS
+BEGIN
+	SELECT DISTINCT id, name, description, status, detailedInfo, brand, type
+	FROM productModel
+	WHERE id in 
+	(select id_product from product 
+	where product.stock_out_date IS NOT NULL 
+	AND DATEDIFF(month, product.stock_out_date , @date) <= @months 
+	AND DATEDIFF(month, product.stock_out_date , @date) >= 0 
+	group by id_product
+	having count(*) >= @sl)
+	order by name desc
+END
+go
 
+go
