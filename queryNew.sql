@@ -484,7 +484,29 @@ BEGIN
 END
 GO
 
-
+Create TRIGGER update_Co_Don_hang_nha_ban_mau_sp on Co_Don_hang_nha_ban_mau_sp 
+After update AS
+BEGIN
+	Declare @Conhang int
+	Declare @id int
+	Select @id= id_productModel from inserted
+	Select @Conhang = count(*) from product where product.id_product=@id and product.stock_out_date is NULL
+	Print @id
+	Print @Conhang
+	if(@Conhang=0) 
+	Begin
+		Update dbo.productModel
+		Set productModel.status='Not available'
+		Where productModel.id=@id
+	End
+	Else
+	Begin
+		Update dbo.productModel
+		Set productModel.status='Available'
+		Where productModel.id=@id
+	END
+END
+GO
 ------------------------------------^^^^^^ trigger tính thuộc tính dẫn xuất giá đơn hàng trong đơn hàng
 create trigger checkStatusProductModel
 on Co_Don_hang_nha_ban_mau_sp
@@ -644,4 +666,51 @@ BEGIN
 		END;
 END;
 GO
+
 --------^ view của Hưng
+
+
+go
+--product models that has sold for x months 
+create PROC dbo.incompetent_products
+@months int, @date date
+AS
+BEGIN
+	SELECT DISTINCT id, name, description, status, detailedInfo, brand, type
+	FROM productModel, product
+	WHERE
+	productModel.id = product.id_product AND product.stock_out_date IS NOT NULL AND DATEDIFF(month, product.stock_out_date , @date) <= @months AND DATEDIFF(month, product.stock_out_date , @date) >= 0
+	order by name asc
+END;
+go
+
+CREATE PROCEDURE list_products_ofSeller(@seller varchar(255),@idModel int,@name varchar(40)) 
+AS
+SELECT id_seller,id_productModel,name,status
+FROM provider INNER JOIN productModel ON provider.id_productModel= productModel.id
+WHERE ( @seller=id_seller  OR @idModel=id_productModel OR @name=name)
+GROUP BY status,provider.id_seller,provider.id_productModel,productModel.name
+ORDER BY id_seller ;
+go
+
+
+--------^ view của Hưng
+go
+create PROC list_productModel
+@months int, @date date, @sl int
+AS
+BEGIN
+	SELECT DISTINCT id, name, description, status, detailedInfo, brand, type
+	FROM productModel
+	WHERE id in 
+	(select id_product from product 
+	where product.stock_out_date IS NOT NULL 
+	AND DATEDIFF(month, product.stock_out_date , @date) <= @months 
+	AND DATEDIFF(month, product.stock_out_date , @date) >= 0 
+	group by id_product
+	having count(*) >= @sl)
+	order by name desc
+END
+go
+
+go

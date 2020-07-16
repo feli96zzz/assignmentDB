@@ -17,9 +17,7 @@ EXEC update_productModel '4', 'iPhone 12', 'iPhone 12 64GB', 'Màn hình OLED: 5
 delProcMod '-1'
 delProcMod '6'
 delProcMod 'adsafdsafdsaf'
-delProcMod '5'
-
-EXEC delProcMod '4'
+delProcMod '7'
 
 
 ---------v------ Tu test tính giá đơn hàng
@@ -104,6 +102,10 @@ update dbo.Co_Don_hang_nha_ban_mau_sp set buy_amount = 1 where id_order = 1 and 
 update dbo.Co_Don_hang_nha_ban_mau_sp set buy_amount = 1 where id_order = 1 and id_productModel = 4
 
 prod_sold_by_seller 1
+select * from product
+list_productModel '6', '20180808', '4'
+list_productModel '6', '20180808', '3'
+list_productModel '6', '20180808', '2'
 ----------------^ Tu test tính doanh thu của một cửa hàng trong một khoảng thời gian
 
 select * from SLmauSanPhamLonHonN (2, '20180101' , '20181231')

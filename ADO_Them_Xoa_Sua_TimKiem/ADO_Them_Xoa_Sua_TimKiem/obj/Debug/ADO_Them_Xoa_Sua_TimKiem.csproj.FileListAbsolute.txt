@@ -1,0 +1,10 @@
+C:\Users\feli96zzz\incognitoDir\HK192\heCoSoDuLieu\baiTapLon\tiki\ADO_Them_Xoa_Sua_TimKiem\ADO_Them_Xoa_Sua_TimKiem\bin\Debug\ADO_Them_Xoa_Sua_TimKiem.exe.config
+C:\Users\feli96zzz\incognitoDir\HK192\heCoSoDuLieu\baiTapLon\tiki\ADO_Them_Xoa_Sua_TimKiem\ADO_Them_Xoa_Sua_TimKiem\bin\Debug\ADO_Them_Xoa_Sua_TimKiem.exe
+C:\Users\feli96zzz\incognitoDir\HK192\heCoSoDuLieu\baiTapLon\tiki\ADO_Them_Xoa_Sua_TimKiem\ADO_Them_Xoa_Sua_TimKiem\bin\Debug\ADO_Them_Xoa_Sua_TimKiem.pdb
+C:\Users\feli96zzz\incognitoDir\HK192\heCoSoDuLieu\baiTapLon\tiki\ADO_Them_Xoa_Sua_TimKiem\ADO_Them_Xoa_Sua_TimKiem\obj\Debug\ADO_Them_Xoa_Sua_TimKiem.csprojAssemblyReference.cache
+C:\Users\feli96zzz\incognitoDir\HK192\heCoSoDuLieu\baiTapLon\tiki\ADO_Them_Xoa_Sua_TimKiem\ADO_Them_Xoa_Sua_TimKiem\obj\Debug\ADO_Them_Xoa_Sua_TimKiem.Form1.resources
+C:\Users\feli96zzz\incognitoDir\HK192\heCoSoDuLieu\baiTapLon\tiki\ADO_Them_Xoa_Sua_TimKiem\ADO_Them_Xoa_Sua_TimKiem\obj\Debug\ADO_Them_Xoa_Sua_TimKiem.Properties.Resources.resources
+C:\Users\feli96zzz\incognitoDir\HK192\heCoSoDuLieu\baiTapLon\tiki\ADO_Them_Xoa_Sua_TimKiem\ADO_Them_Xoa_Sua_TimKiem\obj\Debug\ADO_Them_Xoa_Sua_TimKiem.csproj.GenerateResource.cache
+C:\Users\feli96zzz\incognitoDir\HK192\heCoSoDuLieu\baiTapLon\tiki\ADO_Them_Xoa_Sua_TimKiem\ADO_Them_Xoa_Sua_TimKiem\obj\Debug\ADO_Them_Xoa_Sua_TimKiem.csproj.CoreCompileInputs.cache
+C:\Users\feli96zzz\incognitoDir\HK192\heCoSoDuLieu\baiTapLon\tiki\ADO_Them_Xoa_Sua_TimKiem\ADO_Them_Xoa_Sua_TimKiem\obj\Debug\ADO_Them_Xoa_Sua_TimKiem.exe
+C:\Users\feli96zzz\incognitoDir\HK192\heCoSoDuLieu\baiTapLon\tiki\ADO_Them_Xoa_Sua_TimKiem\ADO_Them_Xoa_Sua_TimKiem\obj\Debug\ADO_Them_Xoa_Sua_TimKiem.pdb
