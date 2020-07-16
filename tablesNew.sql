@@ -16,9 +16,9 @@ CREATE TABLE productModel (
    description  nvarchar(1000),
    status	    nvarchar(50) default 'Not available',
    detailedInfo nvarchar(1000),
-   brand	      nvarchar(10),
+   brand	      nvarchar(10) ,
    type         nvarchar(40),
-   FOREIGN KEY (type) REFERENCES typeProd(type),   
+   FOREIGN KEY (type    ) REFERENCES typeProd(type),   
    PRIMARY KEY(id)   
 );
 CREATE TABLE colorProd(
@@ -32,8 +32,8 @@ CREATE TABLE colorProd(
 
 CREATE TABLE member(
       email     nvarchar (255),
-      phone_num nvarchar(255),
-      name      nvarchar (255),
+      phone_num nvarchar(255) UNIQUE ,
+      name      nvarchar (255)  ,
       password  nvarchar (511) NOT NULL,
       PRIMARY KEY (email)
 );
@@ -76,7 +76,7 @@ ADD CONSTRAINT fk_id_product	FOREIGN KEY (id_product)
 /*Nhà bán*/
 CREATE TABLE seller(
       join_date       DATE ,
-      business_reg_num nvarchar (30),
+      business_reg_num nvarchar (30) UNIQUE ,
       store_name      nvarchar (40),
       type_prod       nvarchar(40),
       id_seller       nvarchar(255)  NOT NULL ,
@@ -206,7 +206,7 @@ ADD CONSTRAINT fk_id_cargo    FOREIGN KEY (id_cargo)
 /*Nhân viên*/
 CREATE TABLE staff(
       id              int  NOT NULL IDENTITY(1,1),
-      phone_num       nvarchar(10),
+      phone_num       nvarchar(10) UNIQUE ,
       name            nvarchar (40),
       gender          nvarchar(6),
       birthday        DATE CHECK (DATEDIFF(YEAR,birthday,GETDATE())>=18) ,
@@ -250,8 +250,8 @@ CREATE TABLE staff_manager(
 
 CREATE TABLE storage( 
       id              int  NOT NULL IDENTITY(1,1),
-      name            nvarchar(40),
-      address         nvarchar(255), 
+      name            nvarchar(40) ,
+      address         nvarchar(255) UNIQUE , 
       producerID nvarchar(255)   NOT NULL,
       PRIMARY KEY (id) 
 );
@@ -282,7 +282,7 @@ ADD CONSTRAINT fk1_id_product_STT FOREIGN KEY (id_product, STT)
 --DROP TABLE IF EXISTS department
 CREATE TABLE  department(
       id              int  NOT NULL IDENTITY(1,1) ,
-      name            nvarchar (255),
+      name            nvarchar (255) UNIQUE ,
       description     nvarchar (255), /*mô tả hoạt động*/
       PRIMARY KEY (id)
 );
